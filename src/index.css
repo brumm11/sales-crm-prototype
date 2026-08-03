@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* The desktop canvas behind the mobile frame. Neutral, so the phone reads as intentional. */
+.app-canvas {
+  background:
+    radial-gradient(120% 120% at 50% 0%, #f4f5f8 0%, #eceef3 45%, #e6e8ee 100%);
+}
+
+/* Hide scrollbars inside the phone frame for a native feel, keep scrolling. */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Consistent, accessible focus ring for keyboard users (mouse clicks stay clean). */
+:focus-visible {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #4f46e5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
