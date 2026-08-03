@@ -86,6 +86,17 @@ export const NotePen = (p) => (
     <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5Z" />
   </Svg>
 );
+export const BarChart = (p) => (
+  <Svg {...p}>
+    <path d="M7 15v3" /><path d="M12 10v8" /><path d="M17 6v12" />
+  </Svg>
+);
+export const Lightbulb = (p) => (
+  <Svg {...p}>
+    <path d="M9 18h6" /><path d="M10 21h4" />
+    <path d="M12 3a6 6 0 0 0-4 10.5c.5.5 1 1.2 1 2.5h6c0-1.3.5-2 1-2.5A6 6 0 0 0 12 3Z" />
+  </Svg>
+);
 export const List = (p) => (
   <Svg {...p}><path d="M8 6h13" /><path d="M8 12h13" /><path d="M8 18h13" /><path d="M3 6h.01" /><path d="M3 12h.01" /><path d="M3 18h.01" /></Svg>
 );

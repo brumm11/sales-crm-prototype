@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useDeals } from '../state/DealsContext';
 import { useToast } from '../components/Toast';
 import { formatValue } from '../data/deals';
+import { suggestActions } from '../lib/suggestions';
 import TopBar from '../components/TopBar';
 import Button from '../components/Button';
 import BottomSheet from '../components/BottomSheet';
@@ -15,6 +16,7 @@ import {
 } from '../components/tags';
 import {
   Sparkles,
+  Lightbulb,
   FileGlyph,
   Upload,
   Plus,
@@ -46,6 +48,9 @@ export default function DealDetail() {
   if (!deal) return <NotFound />;
 
   const { priority } = deal;
+  // Rule-based next steps, derived live from the same signals as the priority
+  // score and sentiment — so they update when Rahul acts on the deal.
+  const suggestions = suggestActions(deal);
 
   const handleMarkUpdate = () => {
     if (deal.lastUpdatedDaysAgo === 0 || marking) return;
@@ -150,6 +155,32 @@ export default function DealDetail() {
               </p>
             </div>
           </div>
+        </section>
+
+        {/* Quick wins — rule-based next suggested action(s) */}
+        <section className="rounded-2xl bg-white p-4 shadow-card ring-1 ring-neutral-100">
+          <div className="flex items-center gap-2">
+            <span className="flex h-6 w-6 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
+              <Lightbulb className="h-4 w-4" />
+            </span>
+            <h3 className="text-sm font-semibold text-ink">Quick wins</h3>
+            <span className="ml-auto rounded-full bg-amber-50 px-2 py-0.5 text-2xs font-semibold text-amber-700">
+              Suggested · rule-based
+            </span>
+          </div>
+          <ul className="mt-3 flex flex-col gap-2.5">
+            {suggestions.map((s, i) => (
+              <li key={i} className="flex gap-2.5">
+                <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600">
+                  <Check className="h-3.5 w-3.5" />
+                </span>
+                <p className="text-sm leading-relaxed text-ink-soft">{s}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-2xs text-ink-faint">
+            Suggested from this deal&apos;s status — guidance, not automation.
+          </p>
         </section>
 
         {/* Documents */}

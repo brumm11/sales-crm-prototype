@@ -20,7 +20,12 @@
 
 const VALUE_CAP = 1200000;   // ₹12L — value contribution maxes out here
 const STALE_FULL_DAYS = 9;   // staleness contribution maxes out at 9+ days
-const HOLD_CEILING = 26;     // on-hold deals cannot score above this
+const HOLD_CEILING = 30;     // on-hold deals are demoted into [0, this] — never higher
+
+// Sum of the maximum weighted contributions below (value + staleness + response
+// + docs). Used to compress an on-hold deal's real score into the low band while
+// preserving how its factors rank it relative to other on-hold deals.
+const MAX_RAW_SCORE = 26 + 30 + 28 + 22; // = 106
 
 const NEEDS_ATTENTION_THRESHOLD = 52; // score at/above this = "needs attention"
 
@@ -83,17 +88,22 @@ export function computePriority(deal) {
           : `${deal.pendingDocsCount} pending documents`,
       tone: 'warn',
       weight: docsPts,
+      isDocs: true,
     });
   }
 
   // Raw score -------------------------------------------------------------
   let score = Math.round(valuePts + stalePts + responsePts + docsPts);
 
-  // 5. On-hold cap --------------------------------------------------------
+  // 5. On-hold demotion ---------------------------------------------------
   let capped = false;
   if (deal.onHold) {
     capped = true;
-    score = Math.min(score, HOLD_CEILING);
+    // Demote — never elevate — a paused deal. Instead of flattening every on-hold
+    // deal to the same constant, compress its REAL weighted score into the low band
+    // [0, HOLD_CEILING]. This keeps it out of "needs attention" while still letting a
+    // bigger / staler / doc-blocked paused deal rank above a quieter one.
+    score = Math.round((score / MAX_RAW_SCORE) * HOLD_CEILING);
     // On hold becomes the leading reason and pushes the deal out of "needs attention".
     reasons.unshift({ text: 'On hold', tone: 'hold', weight: 999 });
   }
@@ -101,11 +111,20 @@ export function computePriority(deal) {
   score = clamp(score, 0, 100);
 
   // Surface the strongest reasons first; keep it to 3 so cards stay scannable.
-  const topReasons = reasons
-    .slice()
-    .sort((a, b) => b.weight - a.weight)
-    .slice(0, 3)
-    .map(({ text, tone }) => ({ text, tone }));
+  const sorted = reasons.slice().sort((a, b) => b.weight - a.weight);
+  let top = sorted.slice(0, 3);
+
+  // Guarantee the "Pending document(s)" tag is visible whenever the deal has
+  // pending docs. Without this, a strong-signal deal (e.g. on hold + stale +
+  // large) can push the low-weight docs tag out of the top 3, so the card shows
+  // no pending-doc tag while still appearing under the "Pending docs" filter.
+  // The card's tags and the filter it appears under must always agree.
+  if (deal.pendingDocsCount > 0 && !top.some((r) => r.isDocs)) {
+    const docReason = sorted.find((r) => r.isDocs);
+    if (docReason) top = [...top.slice(0, 2), docReason];
+  }
+
+  const topReasons = top.map(({ text, tone }) => ({ text, tone }));
 
   return {
     score,

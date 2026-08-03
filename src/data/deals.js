@@ -27,6 +27,7 @@ export const initialDeals = [
     clientRespondedDaysAgo: null,
     onHold: false,
     pendingDocsCount: 1,
+    pendingDocLabel: 'PO copy',
     nextMeeting: 'Today, 4:30 PM',
     sentiment: {
       label: 'Negative',
@@ -81,6 +82,7 @@ export const initialDeals = [
     clientRespondedDaysAgo: 1,
     onHold: false,
     pendingDocsCount: 1,
+    pendingDocLabel: 'signed distributor form',
     nextMeeting: 'Wed, 3:00 PM',
     sentiment: {
       label: 'Positive',
@@ -132,6 +134,7 @@ export const initialDeals = [
     clientRespondedDaysAgo: null,
     onHold: false,
     pendingDocsCount: 2,
+    pendingDocLabel: 'GST certificate & trade license',
     nextMeeting: 'Fri, 12:30 PM',
     sentiment: {
       label: 'Neutral',
@@ -157,6 +160,7 @@ export const initialDeals = [
     clientRespondedDaysAgo: 3,
     onHold: false,
     pendingDocsCount: 1,
+    pendingDocLabel: 'KYC document',
     nextMeeting: 'Thu, 5:00 PM',
     sentiment: {
       label: 'Neutral',
@@ -206,7 +210,10 @@ export const initialDeals = [
     lastUpdatedDaysAgo: 8,
     clientRespondedDaysAgo: null,
     onHold: true,
-    pendingDocsCount: 1,
+    pendingDocsCount: 0, // Paused for a shop renovation — no document is actually awaited
+                         // from the client (notes/brief mention none), so it must not
+                         // surface under the "Pending docs" filter.
+    holdHint: 'the shop renovation wraps (~1 month)',
     nextMeeting: 'Paused',
     sentiment: {
       label: 'Neutral',
@@ -232,6 +239,7 @@ export const initialDeals = [
     clientRespondedDaysAgo: null,
     onHold: true,
     pendingDocsCount: 0,
+    holdHint: 'the new quarter opens',
     nextMeeting: 'Paused',
     sentiment: {
       label: 'Neutral',
