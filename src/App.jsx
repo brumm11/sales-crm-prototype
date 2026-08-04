@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { DealsProvider } from './state/DealsContext';
 import { ToastProvider } from './components/Toast';
-import StatusBar from './components/StatusBar';
 import Home from './screens/Home';
 import MyDeals from './screens/MyDeals';
 import DealDetail from './screens/DealDetail';
@@ -25,14 +24,13 @@ function App() {
   );
 }
 
-// Route-aware shell: the simulated phone status bar + the scroll/sticky context.
-// Home uses the dark theme; the list and detail screens stay light.
+// Route-aware shell: sets the frame background per screen (dark on Home, light
+// on the list/detail screens) and provides the scroll/sticky context.
 function Shell() {
   const { pathname } = useLocation();
   const dark = pathname === '/';
   return (
     <div className={`flex w-full flex-1 flex-col ${dark ? 'bg-[#181410]' : 'bg-neutral-50'}`}>
-      <StatusBar dark={dark} />
       {/* The scroll + sticky context for every screen. */}
       <main className="no-scrollbar flex-1 overflow-y-auto overscroll-contain">
         <Routes>
