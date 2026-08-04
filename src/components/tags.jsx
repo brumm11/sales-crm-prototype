@@ -45,15 +45,17 @@ export function PriorityPill({ label, score }) {
   );
 }
 
-// Big score number with its label, used on the deal card leading edge.
+// Big score number with its label, used on the deal card leading edge. Sized to
+// be the first thing the eye lands on in a deal card (the single most important
+// piece of information there).
 export function ScoreBlock({ label, score }) {
   const s = priorityStyle[label];
   return (
     <div className="flex flex-col items-center justify-center">
-      <span className={`text-xl font-bold tabular-nums leading-none ${s.text}`}>{score}</span>
-      <span className="mt-1 inline-flex items-center gap-1">
+      <span className={`text-2xl font-extrabold tabular-nums leading-none ${s.text}`}>{score}</span>
+      <span className="mt-1.5 inline-flex items-center gap-1">
         <span className={`h-1.5 w-1.5 rounded-full ${s.dot}`} aria-hidden="true" />
-        <span className="text-2xs font-semibold text-ink-muted">{label}</span>
+        <span className="text-2xs font-bold uppercase tracking-wide text-ink-muted">{label}</span>
       </span>
     </div>
   );

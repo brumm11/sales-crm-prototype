@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { DealsProvider } from './state/DealsContext';
 import { ToastProvider } from './components/Toast';
+import BottomNav from './components/BottomNav';
 import Home from './screens/Home';
 import MyDeals from './screens/MyDeals';
 import DealDetail from './screens/DealDetail';
+import Profile from './screens/Profile';
 
 function App() {
   return (
@@ -29,17 +31,27 @@ function App() {
 function Shell() {
   const { pathname } = useLocation();
   const dark = pathname === '/';
+  // Bottom nav shows on the top-level tab screens; hidden on the nested Deal
+  // Detail (which has its own sticky action bar and back navigation).
+  const isDealDetail = /^\/deals\/[^/]+$/.test(pathname);
+  const showNav = !isDealDetail;
   return (
-    <div className={`flex w-full flex-1 flex-col ${dark ? 'bg-[#181410]' : 'bg-neutral-50'}`}>
+    // min-h-0 is essential: without it this flex child keeps its default
+    // min-height:auto and grows to its content height, overflowing the fixed
+    // frame (which clips) so the inner <main> never scrolls. With min-h-0 it is
+    // capped to the frame and <main>'s overflow-y-auto scrolls properly.
+    <div className={`flex w-full min-h-0 flex-1 flex-col ${dark ? 'bg-[#181410]' : 'bg-neutral-50'}`}>
       {/* The scroll + sticky context for every screen. */}
-      <main className="no-scrollbar flex-1 overflow-y-auto overscroll-contain">
+      <main className="no-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/deals" element={<MyDeals />} />
           <Route path="/deals/:id" element={<DealDetail />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
+      {showNav && <BottomNav dark={dark} />}
     </div>
   );
 }

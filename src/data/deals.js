@@ -15,6 +15,13 @@ export function formatValue(rupees) {
   return `₹${rupees}`;
 }
 
+// Rahul's own monthly value target (personal, not a team metric). "Achieved" is
+// derived from the deal data itself (see Home): booked earlier this month plus
+// the current "Closing"-stage deal value — kept on the same scale as the deals,
+// not an invented number. With the seed data: 18.2L + Krishna's 9.8L = ₹28L / ₹40L.
+export const monthlyTarget = 4000000;        // ₹40L
+export const bookedEarlierThisMonth = 1820000; // ₹18.2L closed before the open pipeline
+
 // daysAgo helpers assume "today" = the app's static today.
 export const initialDeals = [
   {

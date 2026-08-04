@@ -82,7 +82,7 @@ export default function DealDetail() {
         right={<PriorityPill label={priority.label} score={priority.score} />}
       />
 
-      <div className="flex flex-col gap-3 px-4 py-4 pb-8">
+      <div className="flex flex-col gap-3 px-5 py-4 pb-8">
         {/* Header block */}
         <section className="rounded-2xl bg-white p-4 shadow-card ring-1 ring-neutral-100">
           <div className="flex items-start justify-between gap-3">
@@ -174,7 +174,7 @@ export default function DealDetail() {
                 <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-50 text-amber-600">
                   <Check className="h-3.5 w-3.5" />
                 </span>
-                <p className="text-sm leading-relaxed text-ink-soft">{s}</p>
+                <p className="text-sm leading-relaxed text-ink-soft">{s.text}</p>
               </li>
             ))}
           </ul>
@@ -255,7 +255,7 @@ export default function DealDetail() {
       </div>
 
       {/* Sticky quick actions bar (thumb reach) */}
-      <div className="sticky bottom-0 z-20 border-t border-neutral-100 bg-white/90 px-4 py-3 backdrop-blur-md">
+      <div className="sticky bottom-0 z-20 border-t border-neutral-100 bg-white/90 px-5 py-3 backdrop-blur-md">
         <div className="flex items-center gap-2">
           <Button
             variant="primary"

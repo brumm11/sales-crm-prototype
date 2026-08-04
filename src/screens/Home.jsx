@@ -2,7 +2,9 @@ import { Link } from 'react-router-dom';
 import { useDeals } from '../state/DealsContext';
 import { useToast } from '../components/Toast';
 import { todaysMeetings } from '../data/deals';
-import { AlertTriangle, Pause, FileClock, Clock, ChevronRight, List, BarChart } from '../components/Icons';
+import { personalStats } from '../lib/stats';
+import ProgressRing from '../components/ProgressRing';
+import { AlertTriangle, Pause, FileClock, Clock, ChevronRight, List, Droplet, CalendarCheck, Wallet } from '../components/Icons';
 
 // Screen 1 — Home. A fast morning entry point: who/when, today's (stubbed)
 // meetings, and three status counters that route into the same deal list,
@@ -13,15 +15,41 @@ import { AlertTriangle, Pause, FileClock, Clock, ChevronRight, List, BarChart } 
 // detail screens stay on the light warm theme.
 
 export default function Home() {
-  const { counts } = useDeals();
+  const { counts, deals } = useDeals();
   const toast = useToast();
+
+  // Rahul's own week — shared derived stats (same source the Profile screen uses).
+  // visits is a plausible static field-rep number.
+  const { activePipeline, achieved, target, targetPct } = personalStats(deals);
+  const pipelineLabel = `₹${Math.round(activePipeline / 100000)}L`;
+  const visitsThisWeek = 16;
+  const inLakh = (v) => `₹${Math.round(v / 100000)}L`;
 
   return (
     <div className="min-h-full bg-[#181410] text-[#f4efe8]">
       <div className="flex flex-col gap-6 px-5 pb-12 pt-4">
-        {/* Header */}
-        <header className="flex items-start justify-between gap-3 pt-2">
-          <div className="min-w-0">
+        {/* Top bar — app identifier + Rahul's profile avatar */}
+        <header className="pt-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent-600 text-white">
+                <Droplet className="h-4 w-4" />
+              </div>
+              <span className="text-base font-bold tracking-tight text-[#f4efe8]">Syook</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => toast('Signed in as Rahul Sharma')}
+              aria-label="Your profile"
+              className="focus-ring flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold text-white ring-1 ring-white/15 transition-transform active:scale-95"
+              style={{ background: 'linear-gradient(140deg, #e8763a, #b7853a)' }}
+            >
+              R
+            </button>
+          </div>
+
+          {/* Greeting */}
+          <div className="mt-6">
             <p className="text-sm font-medium text-[#9a9082]">{formattedToday()}</p>
             <h1 className="mt-1.5 text-3xl font-bold tracking-tight text-[#f6f2eb]">
               Good morning, Rahul
@@ -30,15 +58,49 @@ export default function Home() {
               You have {counts.needsAttention} deal{counts.needsAttention === 1 ? '' : 's'} that need attention today.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={() => toast('Insights view — coming soon')}
-            aria-label="Insights"
-            className="focus-ring mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-accent-500 transition-colors hover:bg-white/[0.08] active:bg-white/[0.06]"
-          >
-            <BarChart className="h-5 w-5" />
-          </button>
         </header>
+
+        {/* Personal stats — Rahul's own week. Pure context, NOT actions: no
+            navigation, no chevron. Muted colored tiles, kept shorter and less
+            saturated than the actionable status counters below so they stay
+            visually secondary. */}
+        <section aria-label="Your week">
+          <div className="grid grid-cols-2 gap-3">
+            <StatTile
+              icon={CalendarCheck}
+              value={visitsThisWeek}
+              label="Visits this week"
+              grad="linear-gradient(140deg, #3a2a1d, #2a2016)"
+              iconClass="text-[#f0925e]"
+            />
+            <StatTile
+              icon={Wallet}
+              value={pipelineLabel}
+              label="Active pipeline"
+              grad="linear-gradient(140deg, #21302b, #1a2620)"
+              iconClass="text-[#8fc47a]"
+            />
+          </div>
+
+          {/* Monthly target vs achieved — motivating context, not an action.
+              Not tappable. Kept secondary to the status counters below. */}
+          <div className="mt-3 flex items-center gap-4 rounded-2xl border border-white/[0.07] bg-white/[0.03] p-4">
+            <ProgressRing pct={targetPct} />
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-wide text-[#9a9082]">Monthly target</span>
+                <span className="text-2xs font-medium text-[#8a8175]">{targetPct}% achieved</span>
+              </div>
+              <div className="mt-1.5 flex items-baseline gap-1.5">
+                <span className="text-2xl font-bold tabular-nums text-[#f6f0e7]">{inLakh(achieved)}</span>
+                <span className="text-sm text-[#8a8175]">of {inLakh(target)} goal</span>
+              </div>
+              <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-white/[0.08]">
+                <div className="h-full rounded-full bg-accent-500" style={{ width: `${targetPct}%` }} />
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Status counters = filter triggers into My Deals */}
         <section aria-label="Deal status">
@@ -101,7 +163,7 @@ export default function Home() {
                   <Clock className="h-5 w-5" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold text-[#f4efe8]">{m.name}</p>
+                  <p className="truncate text-sm font-bold text-[#f4efe8]">{m.name}</p>
                   <p className="text-xs text-[#9a9082]">{m.kind}</p>
                 </div>
                 <p className="text-sm font-semibold tabular-nums text-[#e7e0d5]">{m.time}</p>
@@ -121,6 +183,19 @@ export default function Home() {
           <ChevronRight className="h-4 w-4 text-[#8a8175] transition-transform group-hover:translate-x-0.5" />
         </Link>
       </div>
+    </div>
+  );
+}
+
+// A personal stat tile — colored but muted, compact, non-interactive.
+function StatTile({ icon: Icon, value, label, grad, iconClass }) {
+  return (
+    <div className="rounded-2xl border border-white/[0.06] p-3.5" style={{ background: grad }}>
+      <div className="flex items-center gap-2">
+        <Icon className={`h-[18px] w-[18px] shrink-0 ${iconClass}`} />
+        <span className="text-2xl font-bold leading-none tabular-nums text-[#f6f0e7]">{value}</span>
+      </div>
+      <div className="mt-1.5 text-xs font-medium text-[#a89f8f]">{label}</div>
     </div>
   );
 }
