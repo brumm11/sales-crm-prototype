@@ -23,7 +23,8 @@ export default function BottomNav({ dark }) {
 
   return (
     <nav
-      className={`z-30 flex shrink-0 items-stretch border-t ${border} ${bg} px-2 pb-1 pt-1.5 backdrop-blur-md`}
+      className={`z-30 flex shrink-0 items-stretch border-t ${border} ${bg} px-2 pt-1.5 backdrop-blur-md`}
+      style={{ paddingBottom: 'max(0.25rem, env(safe-area-inset-bottom))' }}
       aria-label="Primary"
     >
       {TABS.map((t) => {

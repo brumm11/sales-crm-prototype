@@ -9,11 +9,13 @@ import Profile from './screens/Profile';
 
 function App() {
   return (
-    <div className="app-canvas flex min-h-screen w-full items-center justify-center sm:p-6">
+    <div className="app-canvas flex min-h-dvh w-full items-center justify-center sm:p-6">
       {/* Mobile-width frame. On desktop it reads as an intentional phone, not a
-          broken stretched layout. On a real phone it fills the screen. Providers
-          and overlays (toast, sheets) resolve against this positioned frame. */}
-      <div className="relative flex h-screen w-full max-w-[420px] flex-col overflow-hidden shadow-pop sm:h-[860px] sm:max-h-[92vh] sm:rounded-[2.25rem] sm:ring-1 sm:ring-black/5">
+          broken stretched layout. On a real phone it fills the screen. Uses dvh
+          (dynamic viewport height) so mobile browser chrome never hides the
+          bottom nav — 100vh would extend behind Chrome's toolbar. Providers and
+          overlays (toast, sheets) resolve against this positioned frame. */}
+      <div className="relative flex h-dvh w-full max-w-[420px] flex-col overflow-hidden shadow-pop sm:h-[860px] sm:max-h-[92vh] sm:rounded-[2.25rem] sm:ring-1 sm:ring-black/5">
         <DealsProvider>
           <ToastProvider>
             <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
