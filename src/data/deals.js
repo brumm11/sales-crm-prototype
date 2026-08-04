@@ -48,7 +48,7 @@ export const initialDeals = [
   {
     id: 'krishna-colour-world',
     name: 'Krishna Colour World',
-    location: 'Rajajinagar, Bengaluru',
+    location: 'Udyog Vihar, Gurugram',
     value: 980000,
     stage: 'Closing',
     lastUpdatedDaysAgo: 1,
@@ -75,7 +75,7 @@ export const initialDeals = [
   {
     id: 'abc-paints-distributors',
     name: 'ABC Paints Distributors',
-    location: 'Andheri, Mumbai',
+    location: 'Naraina, Delhi',
     value: 620000,
     stage: 'Proposal Sent',
     lastUpdatedDaysAgo: 2,
@@ -102,7 +102,7 @@ export const initialDeals = [
   {
     id: 'lakshmi-hardware-paints',
     name: 'Lakshmi Hardware & Paints',
-    location: 'T. Nagar, Chennai',
+    location: 'Sector 18, Noida',
     value: 540000,
     stage: 'Negotiation',
     lastUpdatedDaysAgo: 9,
@@ -127,7 +127,7 @@ export const initialDeals = [
   {
     id: 'deccan-paint-mart',
     name: 'Deccan Paint Mart',
-    location: 'Kothrud, Pune',
+    location: 'Rohini, Delhi',
     value: 720000,
     stage: 'Proposal Sent',
     lastUpdatedDaysAgo: 5,
@@ -153,7 +153,7 @@ export const initialDeals = [
   {
     id: 'verma-traders',
     name: 'Verma Traders',
-    location: 'Sector 22, Chandigarh',
+    location: 'Vasundhara, Ghaziabad',
     value: 410000,
     stage: 'Proposal Sent',
     lastUpdatedDaysAgo: 4,
@@ -179,7 +179,7 @@ export const initialDeals = [
   {
     id: 'new-age-decor',
     name: 'New Age Decor',
-    location: 'Salt Lake, Kolkata',
+    location: 'Kirti Nagar, Delhi',
     value: 350000,
     stage: 'Negotiation',
     lastUpdatedDaysAgo: 3,
@@ -204,7 +204,7 @@ export const initialDeals = [
   {
     id: 'gupta-paint-house',
     name: 'Gupta Paint House',
-    location: 'Hazratganj, Lucknow',
+    location: 'Vaishali, Ghaziabad',
     value: 890000,
     stage: 'Negotiation',
     lastUpdatedDaysAgo: 8,
@@ -232,7 +232,7 @@ export const initialDeals = [
   {
     id: 'sai-ram-distributors',
     name: 'Sai Ram Distributors',
-    location: 'Ameerpet, Hyderabad',
+    location: 'Sector 44, Gurugram',
     value: 1120000,
     stage: 'Negotiation',
     lastUpdatedDaysAgo: 12,
@@ -258,7 +258,7 @@ export const initialDeals = [
   {
     id: 'bhandari-sales-corp',
     name: 'Bhandari Sales Corp',
-    location: 'C-Scheme, Jaipur',
+    location: 'Sector 2, Noida',
     value: 280000,
     stage: 'Proposal Sent',
     lastUpdatedDaysAgo: 2,
