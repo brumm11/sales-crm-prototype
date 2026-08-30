@@ -2,6 +2,6 @@
 # With this in place, deploying is a single command: `npm run deploy`
 # (which runs `vite build` then `wrangler pages deploy`, picking up the
 # project name and build output directory below — no flags needed).
-name = "syook-crm-prototype"
+name = "sales-crm-prototype"
 pages_build_output_dir = "dist"
 compatibility_date = "2026-08-03"

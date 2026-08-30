@@ -1,4 +1,4 @@
-# Syook sales CRM — mobile prototype build spec
+# Sales CRM — mobile prototype build spec
 
 ## Context (for the AI: read this before writing any code)
 

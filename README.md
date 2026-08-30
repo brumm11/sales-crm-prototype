@@ -1,8 +1,8 @@
-# Syook sales CRM — mobile prototype
+# Sales CRM — mobile prototype
 
-A clickable prototype for the Syook PM take-home challenge. Simulates a mobile intelligence/UX layer on top of an existing internal CRM used by field sales associates. All data is fake and hardcoded — no backend, no database, no auth.
+A clickable prototype for a PM take-home challenge. Simulates a mobile intelligence/UX layer on top of an existing internal CRM used by field sales associates. All data is fake and hardcoded — no backend, no database, no auth.
 
-See `Syook_Prototype_Build_Spec.md` in this repo for the full product spec (persona, screens, feature logic, design mandate) — that file is the source of truth for what this app should do and why.
+See `Prototype_Build_Spec.md` in this repo for the full product spec (persona, screens, feature logic, design mandate) — that file is the source of truth for what this app should do and why.
 
 ## Tech stack
 

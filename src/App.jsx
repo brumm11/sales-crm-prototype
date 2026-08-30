@@ -28,11 +28,9 @@ function App() {
   );
 }
 
-// Route-aware shell: sets the frame background per screen (dark on Home, light
-// on the list/detail screens) and provides the scroll/sticky context.
+// Shell: provides the scroll/sticky context and the app-wide light background.
 function Shell() {
   const { pathname } = useLocation();
-  const dark = pathname === '/';
   // Bottom nav shows on the top-level tab screens; hidden on the nested Deal
   // Detail (which has its own sticky action bar and back navigation).
   const isDealDetail = /^\/deals\/[^/]+$/.test(pathname);
@@ -42,7 +40,7 @@ function Shell() {
     // min-height:auto and grows to its content height, overflowing the fixed
     // frame (which clips) so the inner <main> never scrolls. With min-h-0 it is
     // capped to the frame and <main>'s overflow-y-auto scrolls properly.
-    <div className={`flex w-full min-h-0 flex-1 flex-col ${dark ? 'bg-[#181410]' : 'bg-neutral-50'}`}>
+    <div className="flex w-full min-h-0 flex-1 flex-col bg-neutral-50">
       {/* The scroll + sticky context for every screen. */}
       <main className="no-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain">
         <Routes>
@@ -53,7 +51,7 @@ function Shell() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      {showNav && <BottomNav dark={dark} />}
+      {showNav && <BottomNav />}
     </div>
   );
 }
